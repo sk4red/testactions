@@ -1,0 +1,86 @@
+name: Fortify Scan Reusable
+
+env:
+  GITHUB_TOKEN: ${{ secrets.SAML_GITHUB_TOKEN }}
+
+on:
+  workflow_call:
+    inputs:
+      APPNAME:
+        description: App to perform scan on
+        required: true
+        type: string
+      RID:
+        description: Fortify RID
+        required: true
+        type: number
+    secrets:
+      FOD_APIKEY:
+        description: FOD API KEY
+        required: true
+      FOD_APISECRET:
+        description: FOD SECRET
+        required: true
+      SAML_GITHUB_TOKEN:
+        description: github Token
+        required: true
+    outputs:
+      scanresult:
+        description: "Result status from FOD"
+        value: ${{ jobs.scan-application.outputs.scanresult }}
+
+jobs:
+  scan-application:
+    name: Scan applications
+    runs-on: ubuntu-latest
+    outputs:
+     scanresult: ${{ steps.fortify-scan.outputs.scan-result }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download Fortify CI tool
+        uses: fortify/gha-setup-fod-uploader@v1
+      - name: Download app release.zip
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.APPNAME }}-release
+      - name: Fortify SAST scan
+        id: fortify-scan
+        shell: bash
+        run: |
+          # Each application under the onyx-nx project has it's own RID (release ID)
+          RID=${{ inputs.RID }}
+          if [ -z "$RID" ]
+          then
+              echo "Could not find a Release Id entry for ${{ inputs.APPNAME }}"
+              exit 1
+          fi
+         echo Running Fortify SAST scan for "${{ inputs.APPNAME  }}" with RID "$RID"
+          ls -la
+          RESULT=$(java \
+          -jar $FOD_UPLOAD_JAR \
+          -z ./${{ inputs.APPNAME }}-release.zip  \
+          -aurl $FOD_API_URL \
+          -purl $FOD_URL \
+          -rid $RID \
+          -ac "$FOD_APIKEY" "$FOD_APISECRET" $FOD_UPLOADER_OPTS \
+          -n "$FOD_UPLOADER_NOTES")
+          echo $RESULT
+          if [[ $RESULT != *"Pass/Fail status: Passed"* ]]
+          then
+            echo "Fortify SAST scan failed"
+            echo "::set-output name=scan-result::failed"
+          else
+            echo "Fortify SAST scan passed"
+            echo "::set-output name=scan-result::passed"
+          fi
+        env:
+          FOD_APIKEY: ${{ secrets.FOD_APIKEY }}
+          FOD_APISECRET: ${{ secrets.FOD_APISECRET }}
+          FOD_URL: https://emea.fortify.com/
+          FOD_API_URL: https://api.emea.fortify.com
+          FOD_UPLOADER_OPTS: '-ep 2 -rp 0 -pp 1 -apf -I 1'
+          FOD_UPLOADER_NOTES: 'Triggered by GitHub Actions (${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})'
+#      - name: Exit appropriately based on scan result
+#        shell: bash
+#        run: |
+#          if [ "${{ steps.fortify-scan.outputs.scan-result }}" == "failed" ]; then exit 1; fi
