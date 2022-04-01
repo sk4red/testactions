@@ -31,7 +31,7 @@ jobs:
          REPONAME="bankingserviceshub"
          fi
          echo "Deploying application ${{ matrix.app }}"
-         RESPONSE_CODE=$(https://api.github.com/repos/DigitalInnovation/"$REPONAME"-release/dispatches)
+         RESPONSE_CODE=https://api.github.com/repos/DigitalInnovation/"$REPONAME"-release/dispatches
          echo "response  code $RESPONSE_CODE"
                
      
