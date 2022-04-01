@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        app: [jaeger, browse, onyx-sandbox, banksrv]
+        app: [jaeger, banksrv]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -27,8 +27,8 @@ jobs:
          set -x
          REPONAME=${{ matrix.app }}
          if [ "${{ matrix.app }}" == "banksrv" ]
-           then
-         REPONAME = "bankingserviceshub"
+         then
+         REPONAME="bankingserviceshub"
          fi
          echo "Deploying application ${{ matrix.app }}"
          RESPONSE_CODE=$(https://api.github.com/repos/DigitalInnovation/"$REPONAME"-release/dispatches)
