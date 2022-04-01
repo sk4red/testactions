@@ -1,7 +1,6 @@
 name: Fortify Scan Reusable
 env:
   GITHUB_TOKEN: ${{ secrets.SAML_GITHUB_TOKEN }}
-
 on:
   workflow_call:
     inputs:
