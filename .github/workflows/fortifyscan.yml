@@ -57,10 +57,10 @@ jobs:
           RESULT=$(java \
           -jar $FOD_UPLOAD_JAR \
           -z ./${{ inputs.APPNAME }}-release.zip  \
-          -aurl $FOD_API_URL \
-          -purl $FOD_URL \
+          -aurl "$FOD_API_URL" \
+          -purl "$FOD_URL" \
           -rid $RID \
-          -ac "$FOD_APIKEY" "$FOD_APISECRET" $FOD_UPLOADER_OPTS \
+          -ac "$FOD_APIKEY" "$FOD_APISECRET" "$FOD_UPLOADER_OPTS" \
           -n "$FOD_UPLOADER_NOTES")
           echo $RESULT
           if [[ $RESULT != *"Pass/Fail status: Passed"* ]]
