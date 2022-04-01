@@ -52,7 +52,7 @@ jobs:
               echo "Could not find a Release Id entry for ${{ inputs.APPNAME }}"
               exit 1
           fi
-         echo Running Fortify SAST scan for "${{ inputs.APPNAME  }}" with RID "$RID"
+          echo Running Fortify SAST scan for "${{ inputs.APPNAME  }}" with RID "$RID"
           ls -la
           RESULT=$(java \
           -jar $FOD_UPLOAD_JAR \
@@ -78,7 +78,4 @@ jobs:
           FOD_API_URL: https://api.emea.fortify.com
           FOD_UPLOADER_OPTS: '-ep 2 -rp 0 -pp 1 -apf -I 1'
           FOD_UPLOADER_NOTES: 'Triggered by GitHub Actions (${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})'
-#      - name: Exit appropriately based on scan result
-#        shell: bash
-#        run: |
-#          if [ "${{ steps.fortify-scan.outputs.scan-result }}" == "failed" ]; then exit 1; fi
+
