@@ -26,13 +26,7 @@ jobs:
         run: |
           DEPLOYMENT_OUTPUTS=$(az appservice plan list --query "[].{name:name, resourceGroup:resourceGroup, numberOfSites:numberOfSites} [? contains(name,'dev-pr-')]" | jq -jc '.[] | select(.numberOfSites < 20) | [.name, .resourceGroup]')
           echo $DEPLOYMENT_OUTPUTS
-  
-          echo 'convert deployment outputs to outputs'
-          echo $DEPLOYMENT_OUTPUTS | jq -c '. | to_entries[] |
-          while IFS=$"\n" read -r c; do
-          OUTPUT_NAME=$(echo "$c" | jq -r '.[0]')
-          OUTPUT_VALUE=$(echo "$c" | jq -r '.[1]')
           echo "setting output $OUTPUT_NAME=$OUTPUT_VALUE"
-          echo "::set-output name=$OUTPUT_NAME::$OUTPUT_VALUE"
+          echo "::set-output name=$DEPLOYMENT_OUTPUTS::$DEPLOYMENT_OUTPUTS"
           done
 
