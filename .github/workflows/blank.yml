@@ -28,5 +28,4 @@ jobs:
           echo $DEPLOYMENT_OUTPUTS
           echo "setting output $OUTPUT_NAME=$OUTPUT_VALUE"
           echo "::set-output name=$DEPLOYMENT_OUTPUTS::$DEPLOYMENT_OUTPUTS"
-          done
-
+       
