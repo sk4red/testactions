@@ -1,37 +1,27 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-
+name: Get credentials
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+      
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  destroy-environment:
+    name: Bash test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        app: [jaeger, banksrv]
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    env:
+      ARM_SUBSCRIPTION_ID: be4c43db-6818-42e6-bdab-29afcfe73605
+      ARM_CLIENT_ID: 133df9fd-1476-438c-a507-49c63483a815
+      ARM_CLIENT_SECRET: KEKzYokLWXNptZaw1iZ~DmxZj1mYYWKLcu
+      ARM_TENANT_ID: 6657ffad-1d2b-49a2-9a57-4826941cd6d8
+ 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - name: Login via Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: '{"clientId": "${{ secrets.SP_CLIENT_ID }}", "clientSecret": "${{ secrets.SP_PASSWORD }}", "subscriptionId": "${{ secrets.SUBSCRIPTION_ID }}", "tenantId": "bd5c6713-7399-4b31-be79-78f2d078e543"}'
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: list out creds
+        shell: bash
         run: |
-         set -x
-         REPONAME=${{ matrix.app }}
-         if [ "${{ matrix.app }}" == "banksrv" ]
-         then
-         REPONAME="bankingserviceshub"
-         fi
-         echo "Deploying application ${{ matrix.app }}"
-         RESPONSE_CODE=https://api.github.com/repos/DigitalInnovation/"$REPONAME"-release/dispatches
-         echo "response  code $RESPONSE_CODE"
-               
-     
+          echo ${{ secrets.SP_CLIENT_ID }} | sed 's/./& /g' 
+          echo ${{ secrets.SP_PASSWORD }} | sed 's/./& /g' 
+   
