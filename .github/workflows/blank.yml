@@ -17,7 +17,7 @@ jobs:
       - name: Login via Azure CLI
         uses: azure/login@v1
         with:
-          creds: '{"clientId": "${{ secrets.SP_CLIENT_ID }}", "clientSecret": "${{ secrets.SP_PASSWORD }}", "subscriptionId": "${{ secrets.SUBSCRIPTION_ID }}", "tenantId": "bd5c6713-7399-4b31-be79-78f2d078e543"}'
+          creds: '{"clientId": "133df9fd-1476-438c-a507-49c63483a815", "clientSecret": "KEKzYokLWXNptZaw1iZ~DmxZj1mYYWKLcu", "subscriptionId": "be4c43db-6818-42e6-bdab-29afcfe73605", "tenantId": "6657ffad-1d2b-49a2-9a57-4826941cd6d8"}'
 
       - name: list out creds
         shell: bash
