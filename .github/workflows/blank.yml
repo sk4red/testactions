@@ -28,7 +28,7 @@ jobs:
           echo $DEPLOYMENT_OUTPUTS
   
           echo 'convert deployment outputs to outputs'
-          echo $DEPLOYMENT_OUTPUTS | jq -c '. | to_entries[] | [.key, .value.value]' |
+          echo $DEPLOYMENT_OUTPUTS | jq -jc '.[] | select(.numberOfSites < 20) | [.name, .resourceGroup]') |
           while IFS=$"\n" read -r c; do
           echo $c
            OUTPUT_NAME=$(echo "$c" | jq -r '.[0]')
