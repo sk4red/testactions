@@ -24,6 +24,7 @@ jobs:
       - name: list out creds
         shell: bash
         run: |
-          echo ${{ secrets.SP_CLIENT_ID }} | sed 's/./& /g' 
-          echo ${{ secrets.SP_PASSWORD }} | sed 's/./& /g' 
+          output=$(az appservice plan list --query "[].{name:name, resourceGroup:resourceGroup, numberOfSites:numberOfSites} [? contains(name,'dev-pr-')]" | jq -jc '.[] | select(.numberOfSites < 20) | [.name, .resourceGroup]')
+          echo $output
+  
    
