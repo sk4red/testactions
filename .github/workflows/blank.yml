@@ -25,7 +25,7 @@ jobs:
         shell: bash
         run: |
           DEPLOYMENT_OUTPUTS=$(az appservice plan list --query "[].{name:name, resourceGroup:resourceGroup, numberOfSites:numberOfSites} [? contains(name,'dev-pr-')]" )
-          echo $output
+          echo $DEPLOYMENT_OUTPUTS
   
           echo 'convert deployment outputs to outputs'
           echo $DEPLOYMENT_OUTPUTS | jq -c '. | to_entries[] | [.key, .value.value]' |
