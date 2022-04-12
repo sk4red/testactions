@@ -2,8 +2,6 @@ name: Get credentials
 on:
   workflow_dispatch:
 
-name: AzureLoginSample
-
 jobs:
 
   build-and-deploy:
