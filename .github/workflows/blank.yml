@@ -10,10 +10,9 @@ jobs:
 
     steps:
       - name: Login via Azure CLI
-        uses: azure/login@v1
+      - uses: azure/login@v1
         with:
-          creds: '{"clientId": "133df9fd-1476-438c-a507-49c63483a815", "clientSecret": "GmWwN_ommWKCw~-SKoJ72k9xK.-wpKAnNC", "subscriptionId": "be4c43db-6818-42e6-bdab-29afcfe73605", "tenantId": "6657ffad-1d2b-49a2-9a57-4826941cd6d8"}'
-
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: list out creds
         shell: bash
         run: |
