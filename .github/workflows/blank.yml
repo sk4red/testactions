@@ -26,6 +26,6 @@ jobs:
         run: |
           DEPLOYMENT_OUTPUTS=$(az appservice plan list --query "[].{name:name, resourceGroup:resourceGroup, numberOfSites:numberOfSites} [? contains(name,'dev-pr-')]" | jq -jc '.[] | select(.numberOfSites < 20) | [.name, .resourceGroup]')
           echo $DEPLOYMENT_OUTPUTS
-          echo "setting output $OUTPUT_NAME=$OUTPUT_VALUE"
+          echo "setting output $DEPLOYMENT_OUTPUTS=$DEPLOYMENT_OUTPUTS"
           echo "::set-output name=$DEPLOYMENT_OUTPUTS::$DEPLOYMENT_OUTPUTS"
        
