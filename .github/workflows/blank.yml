@@ -7,12 +7,7 @@ jobs:
   destroy-environment:
     name: Bash test
     runs-on: ubuntu-latest
-    env:
-      ARM_SUBSCRIPTION_ID: 'be4c43db-6818-42e6-bdab-29afcfe73605'
-      ARM_CLIENT_ID: '133df9fd-1476-438c-a507-49c63483a815'
-      ARM_CLIENT_SECRET: 'KEKzYokLWXNptZaw1iZ~DmxZj1mYYWKLcu'
-      ARM_TENANT_ID: '6657ffad-1d2b-49a2-9a57-4826941cd6d8'
- 
+
     steps:
       - name: Login via Azure CLI
         uses: azure/login@v1
