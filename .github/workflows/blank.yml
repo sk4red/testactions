@@ -1,20 +1,18 @@
 name: Get credentials
 on:
   workflow_dispatch:
-      
+
+name: AzureLoginSample
 
 jobs:
-  destroy-environment:
-    name: Bash test
-    runs-on: ubuntu-latest
 
+  build-and-deploy:
+    runs-on: ubuntu-latest
     steps:
-    - name: Login via Azure CLI
+    
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: list out creds
-      shell: bash
-      run: |
-          echo "hello" 
-   
+    
+    - run: |
+        az webapp list --query "[?state=='Running']"
