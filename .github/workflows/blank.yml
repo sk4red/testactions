@@ -28,7 +28,7 @@ jobs:
           echo $DEPLOYMENT_OUTPUTS
   
           echo 'convert deployment outputs to outputs'
-          echo $DEPLOYMENT_OUTPUTS | jq -c '. | to_entries[] | [.key, .value.value]' |
+          echo $DEPLOYMENT_OUTPUTS | jq -c '. | to_entries[] |
           while IFS=$"\n" read -r c; do
           OUTPUT_NAME=$(echo "$c" | jq -r '.[0]')
           OUTPUT_VALUE=$(echo "$c" | jq -r '.[1]')
