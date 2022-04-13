@@ -25,7 +25,7 @@ jobs:
         shell: bash
         run: |
           DEPLOYMENT_OUTPUTS=$(az appservice plan list --query "[].{name:name, resourceGroup:resourceGroup, numberOfSites:numberOfSites} [? contains(name,'dev-pr-')]" | jq -jc '.[] | select(.numberOfSites < 20) | [.name, .resourceGroup]')
-          DEPLOYMENT_OUTPUTS2=$(az appservice plan list --query "[].{name:name, resourceGroup:resourceGroup, numberOfSites:numberOfSites} [? contains(name,'dev-pr-')]" | jq -r 'sort_by(.numberOfSites) .[] | select(.numberOfSites < 20) | .name, .resourceGroup, .numberOfSites')
+          DEPLOYMENT_OUTPUTS2=$(az appservice plan list --query "[].{name:name, resourceGroup:resourceGroup, numberOfSites:numberOfSites} [? contains(name,'dev-pr-')]" | jq -r '.[] | select(.numberOfSites < 20) | .name, .resourceGroup, .numberOfSites| sort_by(.numberOfSites)')
           echo $DEPLOYMENT_OUTPUTS
           echo $DEPLOYMENT_OUTPUTS2
           echo "setting output $DEPLOYMENT_OUTPUTS=$DEPLOYMENT_OUTPUTS"
