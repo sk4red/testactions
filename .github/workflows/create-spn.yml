@@ -12,7 +12,7 @@ jobs:
 
     - name: Set up secret file
       env:
-        SP_CLIENT_ID: ${{ secrets.SP_CLIENT_ID }}
+        SP_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
         SP_PASSWORD: ${{ secrets.SP_PASSWORD }}
       run: |
         echo $SP_CLIENT_ID >> secrets.txt
