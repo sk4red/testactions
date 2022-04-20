@@ -24,6 +24,6 @@ jobs:
       - name: list out creds
         shell: bash
         run: |
-          output=$(az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/be4c43db-6818-42e6-bdab-29afcfe73605" --name "furmidge1-spn")
+          output=$(az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/be4c43db-6818-42e6-bdab-29afcfe73605" --name "furmidge1-spn" --sdk-auth)
           echo "$output"
          
