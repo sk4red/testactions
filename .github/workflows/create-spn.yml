@@ -1,4 +1,4 @@
-name: Get credentials
+name: Create SPN
 on:
   workflow_dispatch:
       
