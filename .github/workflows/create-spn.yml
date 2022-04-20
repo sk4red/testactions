@@ -1,0 +1,29 @@
+name: Get credentials
+on:
+  workflow_dispatch:
+      
+
+jobs:
+  destroy-environment:
+    name: Bash test
+    runs-on: ubuntu-latest
+    env:
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ secrets.SP_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.SP_PASSWORD }}
+      ARM_TENANT_ID: 6657ffad-1d2b-49a2-9a57-4826941cd6d8
+    environment:
+      name: deveun
+ 
+    steps:
+      - name: Login via Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: '{"clientId": "${{ secrets.AZURE_CLIENT_ID }}", "clientSecret": "${{ secrets.SP_PASSWORD }}", "subscriptionId": "${{ secrets.SUBSCRIPTION_ID }}", "tenantId": "6657ffad-1d2b-49a2-9a57-4826941cd6d8"}'
+
+      - name: list out creds
+        shell: bash
+        run: |
+          output=$(az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/be4c43db-6818-42e6-bdab-29afcfe73605" --name "furmidge1-spn")
+          echo "$output"
+         
